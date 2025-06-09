@@ -1,4 +1,3 @@
-// pages/home.js
 import { supabase } from "../lib/supabaseClient";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -29,7 +28,6 @@ export default function HomePage() {
         console.log("profile:", profile);
         console.log("error:", error);
 
-
         if (profile) {
           setUsername(profile.username);
         }
@@ -44,7 +42,7 @@ export default function HomePage() {
       <h1 className="text-3xl font-bold">Halaman home</h1>
       {username && (
         <button
-          onClick={() => router.push(`/${username}/portofolio`)}
+          onClick={() => router.push(`/${username}`)}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           Lihat Portofolio

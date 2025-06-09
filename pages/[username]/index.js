@@ -1,4 +1,3 @@
-// pages/[username]/portofolio.js
 import { supabase } from "../../lib/supabaseClient";
 
 export async function getServerSideProps({ params }) {
@@ -29,11 +28,6 @@ export default function PortofolioPage({ profile }) {
           <div className="text-lg font-bold">{profile.full_name}</div>
           <div className="text-sm">{profile.birth_place_date}</div>
         </div>
-        {/* <div className="ml-auto flex space-x-2">
-          <div className="w-4 h-4 bg-gray-300 rounded-full"></div>
-          <div className="w-4 h-4 bg-gray-300 rounded-full"></div>
-          <div className="w-4 h-4 bg-gray-300 rounded-full"></div>
-        </div> */}
       </div>
 
       {/* Tabs */}
