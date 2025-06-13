@@ -61,10 +61,10 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Tengah: tombol + tersedia juga */}
-          <div className="mt-12 max-w-7xl mx-auto w-full flex justify-between items-center px-2 md:px-0">
+          {/* Tombol Mulai */}
+          <div className="mt-26 max-w-7xl mx-auto w-full flex justify-between items-center px-2 md:px-0">
             {/* Tombol mulai (center secara horizontal) */}
-            <div className="flex-1 flex justify-center">
+            <div className="text-3xl flex-1 flex justify-center">
               <Link
                 href="/login"
                 className="px-8 py-2 border-2 rounded-lg hover:bg-white hover:text-black transition"
@@ -75,13 +75,13 @@ export default function Home() {
 
             {/* Kanan: tersedia juga */}
             <div className="text-sm text-gray-400 text-center">
-              <p className="mb-2">Tersedia juga</p>
+              <p className="text-lg mb-4">Tersedia juga</p>
               <div className="flex gap-4 justify-center">
                 <a href="/android.apk" target="_blank">
-                  <img src="/assets/android.png" alt="Android" className="w-8 h-8" />
+                  <img src="/assets/android.png" alt="Android" className="w-18 h-18" />
                 </a>
                 <a href="/ios" target="_blank">
-                  <img src="/assets/ios.png" alt="iOS" className="w-8 h-8" />
+                  <img src="/assets/ios.png" alt="iOS" className="w-18 h-18" />
                 </a>
               </div>
             </div>
@@ -91,7 +91,7 @@ export default function Home() {
         <section
           id="section2"
           ref={sectionRefs.section2}
-          className="flex flex-col md:flex-row items-center px-6 py-24 bg-white text-black gap-12"
+          className="min-h-screen flex flex-col md:flex-row items-center px-6 py-24 bg-white text-black gap-12"
         >
           <motion.div
             initial={{ x: -100, opacity: 0 }}
@@ -108,7 +108,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex-1"
           >
-            <h2 className="text-2xl font-bold mb-2">Buat Portofolio yang Mengesankan</h2>
+            <h2 className="text-4xl font-bold mb-2">Buat Portofolio yang Mengesankan</h2>
             <p className="text-gray-700">
               Desain portofoliomu dengan bebas, tampilkan proyek, ide, dan pencapaian dalam satu
               tempat yang elegan. Bangun personal branding yang kuat dan tampil menonjol
@@ -120,7 +120,7 @@ export default function Home() {
         <section
           id="section3"
           ref={sectionRefs.section3}
-          className="flex flex-col md:flex-row-reverse items-center px-6 py-24 bg-white text-black gap-12"
+          className="min-h-screen flex flex-col md:flex-row-reverse items-center px-6 py-24 bg-white text-black gap-12"
         >
           <motion.div
             initial={{ x: 100, opacity: 0 }}
@@ -137,7 +137,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex-1"
           >
-            <h2 className="text-xl font-bold mb-2 underline decoration-blue-600">
+            <h2 className="text-4xl font-bold mb-2">
               Bangun Koneksi yang Bermakna
             </h2>
             <p className="text-gray-700">
@@ -151,7 +151,7 @@ export default function Home() {
         <section
           id="section4"
           ref={sectionRefs.section4}
-          className="bg-gray-100 text-black px-6 py-24"
+          className="min-h-screen bg-gray-100 text-black px-6 py-24"
         >
           <motion.div
             initial={{ y: 100, opacity: 0 }}
@@ -159,7 +159,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center mb-10"
           >
-            <h2 className="text-2xl font-bold">Kolaborasi dan Bangun Komunitas</h2>
+            <h2 className="text-4xl font-bold">Kolaborasi dan Bangun Komunitas</h2>
             <p className="text-gray-600 mt-2">
               Jalankan proyek bersama, berdiskusi topik menarik, dan bangun komunitas kreatif.
               Publikasikan karya kolaboratif dan kembangkan potensi bersama
@@ -177,7 +177,7 @@ export default function Home() {
                 key={n}
                 className="bg-white p-4 shadow rounded flex flex-col items-center justify-center"
               >
-                <div className="w-full h-40 bg-gray-300 flex items-center justify-center mb-4">
+                <div className="w-full h-80 bg-gray-300 flex items-center justify-center mb-4">
                   Gambar
                 </div>
                 <button className="flex items-center gap-2 border px-4 py-2 rounded hover:bg-gray-100 transition">
@@ -199,7 +199,7 @@ export default function Home() {
               <Link href="#">Kontak</Link>
             </div>
           </div>
-          <div className="text-right text-gray-500 mt-34">© 2025 Ziyu Tech</div>
+          <div className="text-right text-gray-500 mt-24">© 2025 Ziyu Tech</div>
         </footer>
       </div>
     </>
