@@ -10,6 +10,16 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const checkLogin = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        router.replace("/home");
+      }
+    };
+    checkLogin();
+  }, [router]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const { error } = await supabase.auth.signInWithPassword({
