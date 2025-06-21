@@ -3,6 +3,8 @@ import { supabase } from "../../lib/supabaseClient";
 import { FaLinkedinIn, FaInstagram, FaGithub } from "react-icons/fa";
 import { FiPlus, FiFilter } from "react-icons/fi";
 import { useRouter } from "next/router";
+import AddProjectModal from "../../components/AddProjectModal";
+
 
 const AVAILABLE_FILTERS = [
   "Design",
@@ -39,6 +41,7 @@ export default function PortofolioPage({ profile }) {
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [projects, setProjects] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const isOwner = currentUser?.id === profile.id;
   const router = useRouter();
 
@@ -75,6 +78,17 @@ export default function PortofolioPage({ profile }) {
 
 
   return (
+    <>
+      {/* Modal pop-up ini ditaruh di sini */}
+      {showModal && (
+        <AddProjectModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          username={profile.username}
+          onSaved={() => fetchProjects()}
+          id={profile.id} // panggil ulang data portofolio
+        />
+      )}
     <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
       {/* Header */}
@@ -192,8 +206,9 @@ export default function PortofolioPage({ profile }) {
         </div>
       </div>
 
-      {/* Filter & Buat Baru */}
+      {/* Tab Portofolio */}
       {activeTab === "portofolio" && (
+      <>
         <div className="flex justify-between items-center p-4 border-b">
           <div className="relative">
             <button
@@ -205,7 +220,7 @@ export default function PortofolioPage({ profile }) {
             </button>
             {showFilterMenu && (
               <div className="absolute z-10 bg-white border shadow mt-2 rounded p-2 w-40">
-                {["Semua", ...AVAILABLE_FILTERS].map(f => (
+                {["Semua", ...AVAILABLE_FILTERS].map((f) => (
                   <label key={f} className="flex items-center space-x-2 text-sm">
                     <input
                       type="checkbox"
@@ -224,7 +239,7 @@ export default function PortofolioPage({ profile }) {
           {/* Buat Baru */}
           {isOwner && (
             <button
-              onClick={() => alert("TODO: Buat Baru")}
+              onClick={() => setShowModal(true)}
               className="px-4 py-2 bg-gray-300 text-black rounded-full flex items-center space-x-2"
             >
               <span>Buat Baru</span>
@@ -232,92 +247,94 @@ export default function PortofolioPage({ profile }) {
             </button>
           )}
         </div>
-      )}
 
-      {/* Filter aktif */}
-      <div className="flex flex-wrap gap-2 p-4">
-        {filters.map((f) => (
-          <div
-            key={f}
-            className="px-4 py-1 bg-blue-500 text-white rounded-full text-sm"
-          >
-            {f}
-          </div>
-        ))}
-      </div>
-
-      {/* Konten Portofolio */}
-      <div className="grid grid-cols-1 gap-4 p-4">
-        {projects.map((item) => (
-          <div
-            key={item.id}
-            className="bg-gray-100 p-4 rounded-lg shadow flex"
-          >
-            {/* Thumbnail */}
-            <div className="w-40 h-32 bg-white border mr-4">
-              {item.thumbnail_url && (
-                <img
-                  src={item.thumbnail_url}
-                  alt="Thumbnail"
-                  className="w-full h-full object-cover"
-                />
-              )}
+        {/* Filter aktif */}
+        <div className="flex flex-wrap gap-2 p-4">
+          {filters.map((f) => (
+            <div
+              key={f}
+              className="px-4 py-1 bg-blue-500 text-white rounded-full text-sm"
+            >
+              {f}
             </div>
+          ))}
+        </div>
 
-            {/* Info */}
-            <div className="flex-1">
-              <div className="flex justify-between">
-                <div className="text-lg font-semibold">{item.title}</div>
-                <button className="text-sm">✏️</button>
+        {/* Konten Portofolio */}
+        <div className="grid grid-cols-1 gap-4 p-4">
+          {projects.map((item) => (
+            <div
+              key={item.id}
+              className="bg-gray-100 p-4 rounded-lg shadow flex"
+            >
+              {/* Thumbnail */}
+              <div className="w-40 h-32 bg-white border mr-4">
+                {item.thumbnail_url && (
+                  <img
+                    src={item.thumbnail_url}
+                    alt="Thumbnail"
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
-              <div className="text-sm text-gray-600">
-                Dibuat {new Date(item.created_at).toLocaleDateString()} <br />
-                Status: {item.status}%
-              </div>
-              <p className="mt-1 text-sm">{item.description}</p>
 
-              <div className="mt-2 flex items-center space-x-4">
-                <div className="text-sm">Kolaborator:</div>
-                <div className="flex -space-x-2">
-                  {item.collaborators?.slice(0, 2).map((c, i) => (
-                    <a key={i} href={`/u/${c.username}`}>
+              {/* Info */}
+              <div className="flex-1">
+                <div className="flex justify-between">
+                  <div className="text-lg font-semibold">{item.title}</div>
+                  {isOwner && <button className="text-sm">✏️</button>}
+                </div>
+                <div className="text-sm text-gray-600">
+                  Dibuat {new Date(item.created_at).toLocaleDateString()} <br />
+                  Status: {item.status}%
+                </div>
+                <p className="mt-1 text-sm">{item.description}</p>
+
+                <div className="mt-2 flex items-center space-x-4">
+                  <div className="text-sm">Kolaborator:</div>
+                  <div className="flex -space-x-2">
+                    {item.collaborators?.slice(0, 2).map((c, i) => (
+                      <a key={i} href={`/u/${c.username}`}>
+                        <img
+                          src={c.photo_url}
+                          className="w-8 h-8 rounded-full border"
+                          alt="kolaborator"
+                        />
+                      </a>
+                    ))}
+                    {item.collaborators?.length > 2 && (
+                      <div className="w-8 h-8 bg-white border rounded-full flex items-center justify-center text-xs">
+                        {item.collaborators.length - 2}+
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="text-sm">Dibuat dengan:</div>
+                  <div className="flex space-x-1">
+                    {item.tools?.map((tool, i) => (
                       <img
-                        src={c.photo_url}
-                        className="w-8 h-8 rounded-full border"
-                        alt="kolaborator"
+                        key={i}
+                        src={`/icons/${tool}.svg`}
+                        className="w-6 h-6"
+                        alt={tool}
                       />
-                    </a>
-                  ))}
-                  {item.collaborators?.length > 2 && (
-                    <div className="w-8 h-8 bg-white border rounded-full flex items-center justify-center text-xs">
-                      {item.collaborators.length - 2}+
-                    </div>
-                  )}
+                    ))}
+                  </div>
                 </div>
 
-                <div className="text-sm">Dibuat dengan:</div>
-                <div className="flex space-x-1">
-                  {item.tools?.map((tool, i) => (
-                    <img
-                      key={i}
-                      src={`/icons/${tool}.svg`}
-                      className="w-6 h-6"
-                      alt={tool}
-                    />
-                  ))}
-                </div>
+                <button
+                  onClick={() => window.open(item.link, "_blank")}
+                  className="mt-3 px-4 py-1 bg-white border rounded-full text-sm"
+                >
+                  Tampilkan
+                </button>
               </div>
-
-              <button
-                onClick={() => window.open(item.link, "_blank")}
-                className="mt-3 px-4 py-1 bg-white border rounded-full text-sm"
-              >
-                Tampilkan
-              </button>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </>
+      )}
     </div>
+    </>
   );
 }
