@@ -38,9 +38,16 @@ export default function PortofolioPage({ profile }) {
   const [filters, setFilters] = useState(["Design"]);
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const isOwner = currentUser?.id === profile.id;
   const router = useRouter();
 
   useEffect(() => {
+    const getUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setCurrentUser(user);
+  };
+  getUser();
     fetchProjects();
   }, [filters]);
 
@@ -215,13 +222,15 @@ export default function PortofolioPage({ profile }) {
           </div>
 
           {/* Buat Baru */}
-          <button
-            onClick={() => alert("TODO: Buat Baru")}
-            className="px-4 py-2 bg-gray-300 text-black rounded-full flex items-center space-x-2"
-          >
-            <span>Buat Baru</span>
-            <FiPlus />
-          </button>
+          {isOwner && (
+            <button
+              onClick={() => alert("TODO: Buat Baru")}
+              className="px-4 py-2 bg-gray-300 text-black rounded-full flex items-center space-x-2"
+            >
+              <span>Buat Baru</span>
+              <FiPlus />
+            </button>
+          )}
         </div>
       )}
 

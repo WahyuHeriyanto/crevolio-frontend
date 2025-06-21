@@ -50,6 +50,10 @@ export default function Register() {
     }
 
     const userId = signUpData.user?.id;
+    if (!userId) {
+    setError("Gagal mendapatkan UID dari Supabase.");
+    return;
+  }
 
     // generate username unik
     const uniqueUsername = await generateUniqueUsername(username);
@@ -57,7 +61,7 @@ export default function Register() {
     // Insert ke table profiles
     const { error: profileError } = await supabase.from("profiles").insert([
       {
-        user_id: userId,
+        id: userId,
         username: uniqueUsername,
         full_name: fullName,
         birth_place_date: birthPlaceDate,
