@@ -37,7 +37,7 @@ export async function getServerSideProps({ params }) {
 export default function PortofolioPage({ profile }) {
   const [activeTab, setActiveTab] = useState("portofolio");
   const [cvOpen, setCvOpen] = useState(false);
-  const [filters, setFilters] = useState(["Design"]);
+  const [filters, setFilters] = useState([]);
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [projects, setProjects] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
@@ -86,8 +86,8 @@ export default function PortofolioPage({ profile }) {
           onClose={() => setShowModal(false)}
           username={profile.username}
           onSaved={() => fetchProjects()}
-          id={profile.id} // panggil ulang data portofolio
-        />
+          id={profile.id} 
+        /> 
       )}
     <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
@@ -321,13 +321,19 @@ export default function PortofolioPage({ profile }) {
                     ))}
                   </div>
                 </div>
-
-                <button
-                  onClick={() => window.open(item.link, "_blank")}
-                  className="mt-3 px-4 py-1 bg-white border rounded-full text-sm"
-                >
-                  Tampilkan
-                </button>
+              <button
+                onClick={() => {
+                  const slugifiedTitle = item.title
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")
+                    .replace(/[^\w-]/g, "");
+                  
+                  router.push(`/${profile.username}/${slugifiedTitle}`);
+                }}
+                className="mt-3 px-4 py-1 bg-white border rounded-full text-sm"
+              >
+                Tampilkan
+              </button>
               </div>
             </div>
           ))}
